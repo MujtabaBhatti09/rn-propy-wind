@@ -47,9 +47,15 @@
     "@react-native-community/blur": ">=4.0.0"
   },
   "peerDependenciesMeta": {
-    "react-native-reanimated": { "optional": true },
-    "react-native-linear-gradient": { "optional": true },
-    "@react-native-community/blur": { "optional": true }
+    "react-native-reanimated": {
+      "optional": true
+    },
+    "react-native-linear-gradient": {
+      "optional": true
+    },
+    "@react-native-community/blur": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@react-native-community/blur": "^4.4.1",
@@ -63,5 +69,10 @@
   },
   "engines": {
     "node": ">= 18"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }
