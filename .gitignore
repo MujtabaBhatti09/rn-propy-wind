@@ -73,3 +73,10 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+
+# Ignore .zip files
+*.zip
+
+# Ignore irrelevant folder
+graphify-out

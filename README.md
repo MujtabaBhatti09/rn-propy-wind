@@ -1,97 +1,159 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# rn-propy-wind
 
-# Getting Started
+**Tailwind-style utility props for React Native.**
+Style your views the way you style Tailwind classes — as props — with a token system for colors, spacing, radius, shadows and typography, plus a built-in animation primitive powered by Reanimated.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+[![npm version](https://img.shields.io/npm/v/rn-propy-wind.svg)](https://www.npmjs.com/package/rn-propy-wind)
+[![license](https://img.shields.io/npm/l/rn-propy-wind.svg)](./LICENSE)
+[![npm downloads](https://img.shields.io/npm/dm/rn-propy-wind.svg)](https://www.npmjs.com/package/rn-propy-wind)
 
-## Step 1: Start Metro
-
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
-
-To start the Metro dev server, run the following command from the root of your React Native project:
-
-```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
+```tsx
+<Box flex1 bg="slate.50" px={4} py={6}>
+  <Box flexRow itemsCenter gap={3} bg="white" rounded="xl" shadow="sm" p={4}>
+    <Box size={10} rounded="full" bg="blue.500" />
+    <Box flex1>
+      <Text bold fontSize="base" color="slate.900">Card title</Text>
+      <Text fontSize="sm" color="slate.500" mt={1}>Subtitle text</Text>
+    </Box>
+  </Box>
+</Box>
 ```
 
-## Step 2: Build and run your app
+No `StyleSheet.create`, no inline style objects, no context providers — just props.
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+---
 
-### Android
+## Why
 
-```sh
-# Using npm
-npm run android
+React Native styling usually means one of:
+- Sprinkling `StyleSheet.create` objects everywhere
+- Reaching for a full CSS-in-JS runtime
+- Hand-rolling a design system from scratch
 
-# OR using Yarn
-yarn android
+`rn-propy-wind` gives you a Tailwind-shaped prop API on top of plain `View`/`Text`/`TouchableOpacity` — familiar naming, zero runtime CSS parsing, and full TypeScript autocomplete on every prop.
+
+## Install
+
+```bash
+npm install rn-propy-wind
 ```
 
-### iOS
+`react-native-reanimated`, `react-native-linear-gradient`, and `@react-native-community/blur` are optional peer dependencies — only needed if you use `MotionView`'s gradient/blur variants or animations.
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+```bash
+npm install react-native-reanimated react-native-linear-gradient @react-native-community/blur
 ```
 
-Then, and every time you update your native dependencies, run:
+## Quick start
 
-```sh
-bundle exec pod install
+```tsx
+import { Box, Row, Text, TouchableBox } from "rn-propy-wind";
+
+export function ProfileCard() {
+  return (
+    <Box bg="white" rounded="2xl" shadow="md" p={5} gap={3}>
+      <Row itemsCenter justifyBetween>
+        <Text bold fontSize="lg" color="slate.900">Jane Cooper</Text>
+        <Text fontSize="sm" color="slate.400">@janecooper</Text>
+      </Row>
+
+      <TouchableBox
+        bg="blue.600"
+        px={5} py={3}
+        rounded="lg"
+        itemsCenter
+        activeOpacity={0.7}
+        onPress={() => console.log("pressed")}
+      >
+        <Text bold color="white">Follow</Text>
+      </TouchableBox>
+    </Box>
+  );
+}
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+## Components
 
-```sh
-# Using npm
-npm run ios
+| Component | Wraps | Notes |
+|---|---|---|
+| `Box` | `View` | Base layout primitive |
+| `Row` | `View` | `Box` with `flexDirection: 'row'` |
+| `Col` | `View` | `Box` with `flexDirection: 'column'` |
+| `Text` | `Text` | Full typography prop set |
+| `BlurBox` | `BlurView` | iOS/Android native blur, requires `@react-native-community/blur` |
+| `TouchableBox` | `TouchableOpacity` | Adds `disabledStyle` prop |
+| `HighlightBox` | `TouchableHighlight` | Adds `underlayColor` (token-aware) + `disabledStyle` |
+| `MotionView` | `Animated.View` / `LinearGradient` / `BlurView` | Reanimated-driven `initial` / `animate` / `transition` props |
 
-# OR using Yarn
-yarn ios
+## Style props
+
+All layout components accept the same `StyleProps` shape:
+
+```
+Flex        flex1, flexRow, flexCol, flexRowReverse, flexColReverse,
+            flexWrap, flexNowrap, flexGrow, flexShrink
+Justify     justifyStart / End / Center / Between / Around / Evenly
+Align       itemsStart / End / Center / Stretch / Baseline
+Self        selfStart / End / Center / Stretch / Auto
+Position    absolute, relative, overflow, hidden, top, bottom, left, right, inset, z
+Spacing     p, px, py, pt, pb, pl, pr, m, mx, my, mt, mb, ml, mr, gap, gapX, gapY
+Size        w, h, minW, minH, maxW, maxH, size
+Color       bg, color, opacity
+Border      border, borderTop/Bottom/Left/Right, borderColor
+Radius      rounded, roundedT/B/L/R, roundedTL/TR/BL/BR
+Shadow      shadow ("sm" | "md" | "lg" | "xl" | "2xl" | "none")
+Typography  fontSize, fontWeight, lineHeight, letterSpacing, fontFamily,
+            textLeft/Center/Right, italic, bold, semibold, medium,
+            uppercase, lowercase, capitalize, underline, strikethrough
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+Spacing and radius accept either a token (`p={4}` → 16px) or a raw value (`p={"12px"}`, `w={"50%"}`). Colors accept dot-notation tokens (`"blue.500"`) or any raw color string (`"#1e90ff"`).
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+### Color tokens
 
-## Step 3: Modify your app
+Full Tailwind-equivalent palette (`slate`, `gray`, `zinc`, `red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`, `teal`, `cyan`, `sky`, `blue`, `indigo`, `violet`, `purple`, `fuchsia`, `pink`, `rose`) each with shades `50`–`950`, plus `white`, `black`, `transparent`.
 
-Now that you have successfully run the app, let's make changes!
+## Animation with `MotionView`
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+```tsx
+import { MotionView } from "rn-propy-wind";
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+<MotionView
+  initial={{ opacity: 0, translateY: 20 }}
+  animate={{ opacity: 1, translateY: 0 }}
+  transition={{ type: "spring", damping: 14, stiffness: 120 }}
+  bg="white" rounded="xl" p={4}
+>
+  <Text>Fades and slides in on mount</Text>
+</MotionView>
+```
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+`MotionView` also renders as an animated `LinearGradient` when you pass `gradientColors`, or an animated `BlurView` when you pass `blurType` — same `StyleProps` API throughout.
 
-## Congratulations! :tada:
+## Utilities
 
-You've successfully run and modified your React Native App. :partying_face:
+`resolveStyle(props)` and `resolveColor(token)` are exported directly, in case you need to resolve style props outside of a component (e.g. inside `StyleSheet.create` or a third-party component's `style` prop).
 
-### Now what?
+```tsx
+import { resolveStyle, resolveColor } from "rn-propy-wind";
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+const style = resolveStyle({ bg: "slate.900", rounded: "lg", p: 4 });
+const hex = resolveColor("blue.500"); // "#3B82F6"
+```
 
-# Troubleshooting
+## TypeScript
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+Fully typed — every prop is autocompleted, and `StyleProps` is exported for building your own components on top of the same system.
 
-# Learn More
+## Requirements
 
-To learn more about React Native, take a look at the following resources:
+- React Native ≥ 0.70
+- React ≥ 17
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## Contributing
+
+Issues and PRs welcome. Please open an issue before submitting large changes so we can discuss approach first.
+
+## License
+
+[MIT](./LICENSE) © <Your Name>
