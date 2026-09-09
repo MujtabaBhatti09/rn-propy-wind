@@ -1,4 +1,4 @@
-package com.rn_props_wind
+package com.rn_propy_wind
 
 import android.app.Application
 import com.facebook.react.PackageList

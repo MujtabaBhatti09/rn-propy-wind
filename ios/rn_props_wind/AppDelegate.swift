@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window = UIWindow(frame: UIScreen.main.bounds)
 
     factory.startReactNative(
-      withModuleName: "rn_props_wind",
+      withModuleName: "rn_propy_wind",
       in: window,
       launchOptions: launchOptions
     )

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "rn_props_wind.app"
-               BlueprintName = "rn_props_wind"
-               ReferencedContainer = "container:rn_props_wind.xcodeproj">
+               BuildableName = "rn_propy_wind.app"
+               BlueprintName = "rn_propy_wind"
+               ReferencedContainer = "container:rn_propy_wind.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "rn_props_windTests.xctest"
-               BlueprintName = "rn_props_windTests"
-               ReferencedContainer = "container:rn_props_wind.xcodeproj">
+               BuildableName = "rn_propy_windTests.xctest"
+               BlueprintName = "rn_propy_windTests"
+               ReferencedContainer = "container:rn_propy_wind.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "rn_props_wind.app"
-            BlueprintName = "rn_props_wind"
-            ReferencedContainer = "container:rn_props_wind.xcodeproj">
+            BuildableName = "rn_propy_wind.app"
+            BlueprintName = "rn_propy_wind"
+            ReferencedContainer = "container:rn_propy_wind.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "rn_props_wind.app"
-            BlueprintName = "rn_props_wind"
-            ReferencedContainer = "container:rn_props_wind.xcodeproj">
+            BuildableName = "rn_propy_wind.app"
+            BlueprintName = "rn_propy_wind"
+            ReferencedContainer = "container:rn_propy_wind.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
