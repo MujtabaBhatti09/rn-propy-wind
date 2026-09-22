@@ -1,6 +1,6 @@
 {
   "name": "rn-propy-wind",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Tailwind-style utility props for React Native — Box, Row, Col, Text, Pressable, TouchableBox, HighlightBox, GradientButton, BlurBox, and a Reanimated-powered MotionView, all styled via props.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -23,11 +23,43 @@
   },
   "keywords": [
     "react-native",
+    "react-native-components",
     "tailwind",
-    "styling",
+    "tailwindcss",
+    "tailwind-react-native",
+    "nativewind",
     "utility-props",
+    "utility-first",
+    "styling",
+    "style-props",
     "design-system",
-    "typescript"
+    "ui-kit",
+    "ui-components",
+    "component-library",
+    "typescript",
+    "reanimated",
+    "react-native-reanimated",
+    "gesture-handler",
+    "react-native-gesture-handler",
+    "animation",
+    "animations",
+    "motion",
+    "gradient",
+    "linear-gradient",
+    "blur",
+    "blur-view",
+    "box",
+    "flexbox",
+    "layout",
+    "cross-platform",
+    "ios",
+    "android",
+    "expo",
+    "react native cli",
+    "android",
+    "mujtaba",
+    "github",
+    "mujtaba bhatti"
   ],
   "author": "MujtabaBhatti09",
   "license": "MIT",
@@ -40,11 +72,12 @@
     "url": "https://github.com/MujtabaBhatti09/rn-propy-wind/issues"
   },
   "peerDependencies": {
+    "@react-native-community/blur": ">=4.0.0",
     "react": ">=18.0.0",
     "react-native": ">=0.70.0",
-    "react-native-reanimated": ">=3.0.0",
+    "react-native-gesture-handler": ">=2.0.0",
     "react-native-linear-gradient": ">=2.6.0",
-    "@react-native-community/blur": ">=4.0.0"
+    "react-native-reanimated": ">=3.0.0"
   },
   "peerDependenciesMeta": {
     "react-native-reanimated": {
@@ -55,6 +88,9 @@
     },
     "@react-native-community/blur": {
       "optional": true
+    },
+    "react-native-gesture-handler": {
+      "optional": true
     }
   },
   "devDependencies": {
@@ -64,6 +100,7 @@
     "react-native": "0.87.1",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-reanimated": "^4.6.0",
+    "react-native-gesture-handler": "^3.3.0",
     "tsup": "^8.3.5",
     "typescript": "^5.6.3"
   },

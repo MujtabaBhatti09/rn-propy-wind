@@ -1,7 +1,7 @@
 # rn-propy-wind
 
 **Tailwind-style utility props for React Native.**
-Style your views the way you style Tailwind classes — as props — with a token system for colors, spacing, radius, shadows and typography, plus a built-in animation primitive powered by Reanimated.
+Style your views the way you style Tailwind classes — as props — with a token system for colors, spacing, radius, shadows and typography, plus built-in animation and gesture primitives powered by Reanimated and Gesture Handler.
 
 [![npm version](https://img.shields.io/npm/v/rn-propy-wind.svg)](https://www.npmjs.com/package/rn-propy-wind)
 [![license](https://img.shields.io/npm/l/rn-propy-wind.svg)](./LICENSE)
@@ -38,11 +38,13 @@ React Native styling usually means one of:
 npm install rn-propy-wind
 ```
 
-`react-native-reanimated`, `react-native-linear-gradient`, and `@react-native-community/blur` are optional peer dependencies — only needed if you use `MotionView`'s gradient/blur variants or animations.
+`react-native-reanimated`, `react-native-gesture-handler`, `react-native-linear-gradient`, and `@react-native-community/blur` are optional peer dependencies — only needed if you use `MotionView`'s gradient/blur/animation variants or `SwipeableBox`.
 
 ```bash
-npm install react-native-reanimated react-native-linear-gradient @react-native-community/blur
+npm install react-native-reanimated react-native-gesture-handler react-native-linear-gradient @react-native-community/blur
 ```
+
+If you use `SwipeableBox` or `MotionView`, make sure your app is wrapped in `GestureHandlerRootView` and that the Reanimated babel plugin is configured — see [Gesture & animation setup](#gesture--animation-setup) below.
 
 ## Quick start
 
@@ -84,6 +86,7 @@ export function ProfileCard() {
 | `TouchableBox` | `TouchableOpacity` | Adds `disabledStyle` prop |
 | `HighlightBox` | `TouchableHighlight` | Adds `underlayColor` (token-aware) + `disabledStyle` |
 | `MotionView` | `Animated.View` / `LinearGradient` / `BlurView` | Reanimated-driven `initial` / `animate` / `transition` props |
+| `SwipeableBox` | `Animated.View` + `GestureDetector` | Draggable box with swipe-to-trigger callbacks, requires `react-native-gesture-handler` + `react-native-reanimated` |
 
 ## Style props
 
@@ -130,6 +133,65 @@ import { MotionView } from "rn-propy-wind";
 
 `MotionView` also renders as an animated `LinearGradient` when you pass `gradientColors`, or an animated `BlurView` when you pass `blurType` — same `StyleProps` API throughout.
 
+## Swiping with `SwipeableBox`
+
+A draggable box that snaps back on a light swipe and fires a callback + animates off-screen once the drag passes a threshold — useful for dismissible cards, delete/archive rows, or Tinder-style stacks.
+
+```tsx
+import { SwipeableBox, Text } from "rn-propy-wind";
+
+<SwipeableBox
+  bg="indigo.600"
+  rounded="xl"
+  p={4}
+  swipeThreshold={120}
+  onSwipeLeft={() => console.log("swiped left — e.g. delete")}
+  onSwipeRight={() => console.log("swiped right — e.g. archive")}
+>
+  <Text bold color="white">Swipe me</Text>
+</SwipeableBox>
+```
+
+**Props:**
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `onSwipeLeft` | `() => void` | — | Called once the box is dragged left past `swipeThreshold` |
+| `onSwipeRight` | `() => void` | — | Called once the box is dragged right past `swipeThreshold` |
+| `swipeThreshold` | `number` | `120` | Horizontal drag distance (px) required to trigger a swipe |
+| `...StyleProps` | — | — | Accepts the same `bg`, `rounded`, `p`, `shadow`, etc. as `Box` |
+
+By default the box resets to its original position after firing a swipe callback. If you want it to stay off-screen (e.g. removed from a list), remove the item from your parent's state inside the `onSwipeLeft`/`onSwipeRight` callback rather than relying on the box's own reset behavior.
+
+`SwipeableBox` uses `react-native-gesture-handler`'s Pan gesture and Reanimated shared values under the hood, so both packages are required at runtime — see setup below.
+
+## Gesture & animation setup
+
+`MotionView` and `SwipeableBox` require `react-native-reanimated` (and `SwipeableBox` additionally requires `react-native-gesture-handler`) to be installed and configured natively, not just added to `package.json`:
+
+1. **Babel** — add the Reanimated plugin as the **last** entry in `babel.config.js`:
+   ```js
+   module.exports = {
+     presets: ["module:metro-react-native-babel-preset"],
+     plugins: ["react-native-reanimated/plugin"], // must be last
+   };
+   ```
+
+2. **Root wrapper** — wrap your app in `GestureHandlerRootView` (required for any Gesture Handler usage, including `SwipeableBox`):
+   ```tsx
+   import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+   export default function App() {
+     return (
+       <GestureHandlerRootView style={{ flex: 1 }}>
+         {/* rest of your app */}
+       </GestureHandlerRootView>
+     );
+   }
+   ```
+
+3. **Rebuild** — these packages touch native code, so a JS-only reload won't pick up the changes; run a full native rebuild after installing.
+
 ## Utilities
 
 `resolveStyle(props)` and `resolveColor(token)` are exported directly, in case you need to resolve style props outside of a component (e.g. inside `StyleSheet.create` or a third-party component's `style` prop).
@@ -148,7 +210,7 @@ Fully typed — every prop is autocompleted, and `StyleProps` is exported for bu
 ## Requirements
 
 - React Native ≥ 0.70
-- React ≥ 17
+- React ≥ 18
 
 ## Contributing
 
@@ -156,4 +218,4 @@ Issues and PRs welcome. Please open an issue before submitting large changes so 
 
 ## License
 
-[MIT](./LICENSE) © <Your Name>
+[MIT](./LICENSE) © Mujtaba Bhatti
